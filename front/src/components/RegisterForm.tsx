@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LogoImage from '../img/logo.png'
+import './register.css'
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -25,7 +27,8 @@ const RegisterForm: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className = "register-container">
+      <img src={LogoImage} alt="Logo" />
       <h2>会員登録</h2>
       <input
         type="text"

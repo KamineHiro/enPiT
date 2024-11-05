@@ -20,6 +20,15 @@ const Assignments: React.FC = () => {
     const [newTitle, setNewTitle] = useState<string>('');   
     const [newDeadline, setNewDeadline] = useState<string>(''); 
     const navigate = useNavigate();
+    const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => setMessage(null), 3000); // 3秒後にメッセージをクリア
+            return () => clearTimeout(timer); // クリーンアップ
+        }
+    }, [message]);
+
 
     // 課題一覧と完了人数を取得
     const fetchAssignments = useCallback(() => {
@@ -95,6 +104,15 @@ const Assignments: React.FC = () => {
     const addAssignment = () => {
         if (!newTitle || !newDeadline) {
             console.error('タイトルと期限を入力してください。');
+            setMessage({ text: 'タイトルと期限を入力してください。', type: 'error' });
+            return;
+        }
+    
+        // 重複チェック
+        const isDuplicate = assignments.some(assignment => assignment.title === newTitle);
+        if (isDuplicate) {
+            console.error('同じタイトルの課題が既に存在します。');
+            setMessage({ text: '同じタイトルの課題が既に存在します。', type: 'error' });
             return;
         }
 
@@ -112,9 +130,14 @@ const Assignments: React.FC = () => {
             setAssignments([...assignments, { ...response.data, completionCount: 0, status: '未着手' }]); 
             setNewTitle('');
             setNewDeadline(''); 
+            setMessage({ text: '課題が追加されました！', type: 'success' });
         })
-        .catch((error) => console.error('Error adding assignment:', error));
+        .catch((error) => {
+            console.error('課題の追加中にエラーが発生しました。', error);
+            setMessage({ text: '課題の追加中にエラーが発生しました。', type: 'error' });
+        });
     };
+    
 
     const incrementCompletionCount = (assignmentId: number) => {
         setAssignments(prevAssignments =>
@@ -160,7 +183,14 @@ const Assignments: React.FC = () => {
 
     return (
         <div>
-            <h1>{className} - 課題一覧</h1>
+            <h1>{className}</h1>
+
+            {/* メッセージ表示: 新規課題追加フォームの上に配置 */}
+            {message && (
+                <p className={message.type === 'error' ? 'warning-message' : 'success-message'}>
+                    {message.text}
+                </p>
+            )}
 
             <div>
                 <h2>新しい課題を追加</h2>
@@ -178,31 +208,32 @@ const Assignments: React.FC = () => {
                 <button onClick={addAssignment}>課題を追加</button>
             </div>
 
-            <ul>
-                {assignments.map((assignment) => (
-                    <li className="assignment-card" key={assignment.id}>
-                        <h2>課題 {assignment.title}</h2>
-                        <p>完了済み: {assignment.completed ? 'はい' : 'いいえ'}</p>
-                        <p>学期課題: {assignment.term ? 'はい' : 'いいえ'}</p>
-                        <p>期限: {assignment.deadline}</p>
-                        <p>完了人数: {assignment.completionCount}人</p>
-                        <div className="status-container">
-                            <select
-                                value={assignment.status}
-                                onChange={(e) => updateStatus(assignment.id, e.target.value as '未着手' | '進行中' | '完了')}
-                                className={`status-${assignment.status}`}
-                            >
-                                <option value="未着手">未着手</option>
-                                <option value="進行中">進行中</option>
-                                <option value="完了">完了</option>
-                            </select>
-                        </div>
-                        <div className="assignment-buttons">
-                            <button onClick={() => deleteAssignment(assignment.id)}>削除</button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            <div>
+                <h3>課題一覧</h3>
+                    {assignments.map((assignment) => (
+                        <li className="assignment-card" key={assignment.id}>
+                            <h2>課題 {assignment.title}</h2>
+                            <p>完了済み: {assignment.completed ? 'はい' : 'いいえ'}</p>
+                            <p>学期課題: {assignment.term ? 'はい' : 'いいえ'}</p>
+                            <p>期限: {assignment.deadline}</p>
+                            <p>完了人数: {assignment.completionCount}人</p>
+                            <div className="status-container">
+                                <select
+                                    value={assignment.status}
+                                    onChange={(e) => updateStatus(assignment.id, e.target.value as '未着手' | '進行中' | '完了')}
+                                    className={`status-${assignment.status}`}
+                                >
+                                    <option value="未着手">未着手</option>
+                                    <option value="進行中">進行中</option>
+                                    <option value="完了">完了</option>
+                                </select>
+                            </div>
+                            <div className="assignment-buttons">
+                                <button onClick={() => deleteAssignment(assignment.id)}>削除</button>
+                            </div>
+                        </li>
+                    ))}
+                </div>
 
             <button onClick={goBack}>戻る</button>
         </div>
