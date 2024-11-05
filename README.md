@@ -2,10 +2,15 @@
 - back：バックエンド(Flask)
 - front：フロントエンド(React)
 
-# MIRO
-- https://miro.com/app/board/uXjVKjUIzII=/?share_link_id=607479652503
+## 実行手順 (Docker)
 
-# エレベータビッチ
+### 1. DockerとDocker Composeのインストール
+   Dockerがインストールされていない場合は、公式サイトからインストールしてください。
 
-# デザイン
-- Figma
+### 2. Dockerコンテナのビルドと起動
+
+   `docker-compose.yml`がプロジェクトに含まれているので、以下のコマンドでコンテナのビルドと起動が行えます。
+
+   ```bash
+   docker-compose up --build
+
