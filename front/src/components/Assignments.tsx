@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Assignments.css';
+import LogoImage from '../img/logo.png'
 
 interface Assignment {
     id: number;
@@ -182,9 +183,11 @@ const Assignments: React.FC = () => {
     };
 
     return (
-        <div>
-            <h1>{className}</h1>
-
+    <div>
+        <div className="header-container">
+            <img src={LogoImage} alt="Logo" /> 
+        </div>
+        <h1>{className}</h1>
             {/* メッセージ表示: 新規課題追加フォームの上に配置 */}
             {message && (
                 <p className={message.type === 'error' ? 'warning-message' : 'success-message'}>
@@ -209,7 +212,7 @@ const Assignments: React.FC = () => {
             </div>
 
             <div>
-                <h3>課題一覧</h3>
+                <h2>課題一覧</h2>
                     {assignments.map((assignment) => (
                         <li className="assignment-card" key={assignment.id}>
                             <h2>課題 {assignment.title}</h2>

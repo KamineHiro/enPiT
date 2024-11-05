@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import LogoImage from '../img/logo.png'
 import './styles.css'; 
 
 interface Class {
@@ -44,6 +45,10 @@ function Classes() {
     };
 
     const deleteClass = (classId: number) => {
+        const confirmDelete = window.confirm("この授業を削除しますか？");
+        if (!confirmDelete) {
+            return; // キャンセルした場合は削除処理を実行しない
+        }
         const token = localStorage.getItem('token');
         axios.delete(`http://localhost:5001/classes/${classId}`, {
             headers: { Authorization: `Bearer ${token}` }
@@ -56,8 +61,8 @@ function Classes() {
 
     return (
         <div className="container">
-            <h1>今日も徹夜</h1>
-            <h3>授業</h3>
+            <img src={LogoImage} alt="Logo" />
+            <h2>授業を選択する</h2>
             {classes.length > 0 ? (
                 classes.map(c => (
                     <div className="input-container" key={c.id}>
