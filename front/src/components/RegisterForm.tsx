@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LogoImage from '../img/logo.png'
-import './register.css'
+import './RegisterForm.css'
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');

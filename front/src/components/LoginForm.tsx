@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoImage from '../img/logo.png'
-import './login.css';
+import './LoginForm.css';
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;

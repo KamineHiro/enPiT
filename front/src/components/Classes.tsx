@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LogoImage from '../img/logo.png'
-import './styles.css'; 
+import './Classes.css'; 
 
 interface Class {
     id: number;
