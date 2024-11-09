@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Classes from './components/Classes';
-import Assignments from './components/Assignments';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
-import LogoutButton from './components/LogoutButton'; 
+import { Classes, Assignments, LoginForm, RegisterForm, LogoutButton } from './components';
 import axios from 'axios';
+
 
 function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
