@@ -1,8 +1,32 @@
-version: '3'
 services:
   frontend:
     build:
-      context: ./front  # frontディレクトリを指定
+      context: ./front
     ports:
-      - "3000:3000"     # ポート3000でアクセス
+      - "3000:3000"
+    volumes:
+      - ./front:/usr/src/app  
+      - /usr/src/app/node_modules  
+    environment:
+      - CHOKIDAR_USEPOLLING=true  
+    depends_on:
+      - backend
+    networks:
+      - app-network
 
+
+  backend:
+    build:
+      context: ./back
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./back:/usr/src/app  
+    environment:
+      - FLASK_ENV=development  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
