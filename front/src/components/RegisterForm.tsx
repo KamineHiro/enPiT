@@ -26,6 +26,10 @@ const RegisterForm: React.FC = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // 前のページに戻る
+  };
+
   return (
     <div className = "register-container">
       <img src={LogoImage} alt="Logo" />
@@ -42,7 +46,8 @@ const RegisterForm: React.FC = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleRegister}>登録</button>
+      <button onClick={handleRegister} className="register-button">登録</button>
+      <button onClick={handleBack} className="back-button" >戻る</button> {/* 戻るボタン */}
       <p>{message}</p>
     </div>
   );

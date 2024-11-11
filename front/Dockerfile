@@ -1,14 +1,20 @@
+# ベースイメージとしてNode.jsを使用
 FROM node:18
 
-WORKDIR /usr/src/app
+# 作業ディレクトリを設定
+WORKDIR /app
 
+# 依存関係をインストール
 COPY package*.json ./
-
 RUN npm install
 
+# アプリケーションコードをコピー
 COPY . .
 
-# RUN npm run build 
+# ビルド
+RUN npm run build
 
-CMD ["npm", "start"]
+# サーバーを開始（通常はポート3000を使用）
 EXPOSE 3000
+CMD ["npm", "start"]
+

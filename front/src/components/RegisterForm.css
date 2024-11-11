@@ -39,22 +39,27 @@
     font-size: 16px;
 }
 
-/* 登録ボタン */
+/* 登録コンテナ内のボタン共通スタイル */
 .register-container button {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #2ecc71;
     color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.register-container button:hover {
-    background-color: #27ae60;
+/* 登録ボタンのスタイル（緑色） */
+.register-container .register-button {
+    background-color: #2ecc71;
+}
+
+/* 戻るボタンのスタイル（青色） */
+.register-container .back-button {
+    background-color: #3498db;
 }
 
 /* メッセージ表示 */
