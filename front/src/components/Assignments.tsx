@@ -22,6 +22,7 @@ const Assignments: React.FC = () => {
     const [newDeadline, setNewDeadline] = useState<string>(''); 
     const navigate = useNavigate();
     const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+    const [filter, setFilter] = useState<string>('すべて');
 
     useEffect(() => {
         if (message) {
@@ -29,6 +30,21 @@ const Assignments: React.FC = () => {
             return () => clearTimeout(timer); // クリーンアップ
         }
     }, [message]);
+
+    const filteredAssignments = assignments.filter((assignment) => {
+        const today = new Date();
+        const deadline = new Date(assignment.deadline);
+        const diffDays = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    
+        if (filter === '1日以内') {
+            return diffDays <= 1;
+        } else if (filter === '3日以内') {
+            return diffDays <= 3;
+        } else if (filter === '7日以内') {
+            return diffDays <= 7;
+        }
+        return true; // "すべて"の場合
+    });
 
 
     // 課題一覧と完了人数を取得
@@ -183,18 +199,9 @@ const Assignments: React.FC = () => {
     };
 
     return (
-    <div>
-        <div className="header-container">
-            <img src={LogoImage} alt="Logo" /> 
-        </div>
-        <h1>{className}</h1>
-            {/* メッセージ表示: 新規課題追加フォームの上に配置 */}
-            {message && (
-                <p className={message.type === 'error' ? 'warning-message' : 'success-message'}>
-                    {message.text}
-                </p>
-            )}
-
+        <div>
+            <h1>{className} - 課題一覧</h1>
+            {/* 課題追加フォーム */}
             <div>
                 <h2>新しい課題を追加</h2>
                 <input 
@@ -210,9 +217,8 @@ const Assignments: React.FC = () => {
                 />
                 <button onClick={addAssignment}>課題を追加</button>
             </div>
-
             <div>
-                <h2>課題一覧</h2>
+                <ul>
                     {assignments.map((assignment) => (
                         <li className="assignment-card" key={assignment.id}>
                             <h2>課題 {assignment.title}</h2>
@@ -236,9 +242,35 @@ const Assignments: React.FC = () => {
                             </div>
                         </li>
                     ))}
+                </ul>
+            </div>
+            <div>
+                <h2>期限別課題リスト</h2>
+                <div>
+                    <label htmlFor="filter">期限でフィルタリング:</label>
+                    <select
+                        id="filter"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                    >
+                        <option value="すべて">すべて</option>
+                        <option value="1日以内">1日以内</option>
+                        <option value="3日以内">3日以内</option>
+                        <option value="7日以内">7日以内</option>
+                    </select>
                 </div>
-
-            <button onClick={goBack}>戻る</button>
+                <ul>
+                    {filteredAssignments.map((assignment) => (
+                        <li className="filtered-assignment-card" key={assignment.id}>
+                            <h2>{assignment.title}</h2>
+                            <p>期限: {assignment.deadline}</p>
+                            <p>ステータス: {assignment.status}</p>
+                            <p>完了人数: {assignment.completionCount}人</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <button onClick={goBack} style={{ marginTop: '20px', padding: '10px 20px' }}>戻る</button>
         </div>
     );
 }
