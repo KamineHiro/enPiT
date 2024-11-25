@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Assignments.css';
-import LogoImage from '../img/logo.png'
+
 
 interface Assignment {
     id: number;
