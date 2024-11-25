@@ -200,7 +200,7 @@ const Assignments: React.FC = () => {
 
     return (
         <div>
-            <h1>{className} - 課題一覧</h1>
+            <h1>{className} - 課題</h1>
             {/* 課題追加フォーム */}
             <div>
                 <h2>新しい課題を追加</h2>
