@@ -11,7 +11,7 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db" #/PATHを変更
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'dca79b97372436bae63b1382945d3b28e82e0bd7e79dd27710353f8bdbf689e2'
 
